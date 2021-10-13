@@ -1,6 +1,3 @@
 [submodule "docs/ld38"]
 	path = docs/ld38
 	url = https://github.com/pontus-persson/ld38.git
-[submodule "docs/ld39"]
-	path = docs/ld39
-	url = https://github.com/pontus-persson/ld39.git
