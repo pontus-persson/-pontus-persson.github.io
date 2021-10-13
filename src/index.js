@@ -10,6 +10,11 @@ import Test from './inc/test';
         console.log('ready');
         let t = new Test({ test: 1, asd:'asd'});
         t.Run();
+
+        w.document.body.style = '';
+        w.document.body.classList.add('opacity-100');
+        w.document.body.classList.remove('opacity-0');
+        w.document.body.classList.remove('hidden');
     });
 
 })(window);
