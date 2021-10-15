@@ -5,6 +5,7 @@ module.exports = {
   plugins: {
     'postcss-preset-env': {},
     tailwindcss,
+    // feather,
     // tailwindcss: {},
     autoprefixer: {},
   }

@@ -18,7 +18,9 @@
     "url": "https://github.com/pontus-persson/pontus-persson.github.io/issues"
   },
   "homepage": "https://github.com/pontus-persson/pontus-persson.github.io#readme",
-  "dependencies": {},
+  "dependencies": {
+    "feather-icons": "^4.28.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
