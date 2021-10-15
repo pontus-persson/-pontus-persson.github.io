@@ -3,6 +3,12 @@
 @tailwind utilities;
 /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@300;400;600;800&display=swap" rel="stylesheet'); */
 
+/* <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script> */
+
+
 @layer components {
   .btn {
     @apply relative inline-block px-4 py-2 text-white no-underline transition duration-200 bg-blue-600 rounded hover:bg-blue-500;
@@ -30,6 +36,14 @@
   }
   a {
     @apply underline hover:no-underline;
+  }
+
+  svg {
+    @apply inline-block;
+  }
+
+  .icon {
+    @apply transition-transform duration-300 transform hover:scale-125;
   }
 
   .bg-custom {
