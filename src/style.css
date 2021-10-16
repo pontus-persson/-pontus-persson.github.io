@@ -51,4 +51,9 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+
+  td {
+    @apply p-2 text-center border-2 border-solid;
+  }
 }
