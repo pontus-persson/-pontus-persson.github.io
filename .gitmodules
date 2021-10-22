@@ -6,10 +6,10 @@
 	url = https://github.com/pontus-persson/ld39.git
 [submodule "docs/playground/sierpinski"]
 	path = docs/playground/sierpinski
-	url = git@github.com:pontus-persson/sierpinski-triangle.git
+	url = https://github.com/pontus-persson/sierpinski-triangle.git
 [submodule "docs/playground/vektor"]
 	path = docs/playground/vektor
-	url = git@github.com:pontus-persson/vektor.git
+	url = https://github.com/pontus-persson/vektor.git
 [submodule "docs/playground/threejs-panorama"]
 	path = docs/playground/threejs-panorama
-	url = git@github.com:pontus-persson/threejs-panorama.git
+	url = https://github.com/pontus-persson/threejs-panorama.git
