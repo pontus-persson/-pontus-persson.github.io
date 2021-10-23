@@ -47,6 +47,13 @@ var vec2 = function(x, y) {
         this.x /= vec.x;
         this.y /= vec.y;
     },
+    this.distanceTo = function(vec) {
+        var dist = new vec2(
+            vec.x - this.x,
+            vec.y - this.y,
+        );
+        return dist.len();
+    },
     this.normalize = function() {
         var l = this.len();
         if(l != 0) this.div(l);

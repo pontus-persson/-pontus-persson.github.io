@@ -11,8 +11,16 @@ module.exports = {
       'display': ['"Noto Sans Mono"', 'monospace'],
       'test': ['"Noto Sans Mono"', 'monospace']
     },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      gray: colors.blueGray,
+      red: colors.red,
+      blue: colors.sky,
+      yellow: colors.amber,
+    },
     extend: {
-      colors: colors,
+      // colors: colors,
       // colors: {
       //   transparent: 'transparent',
       //   current: 'currentColor',

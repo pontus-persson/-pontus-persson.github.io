@@ -19,11 +19,14 @@
   },
   "homepage": "https://github.com/pontus-persson/pontus-persson.github.io#readme",
   "dependencies": {
-    "feather-icons": "^4.28.0"
+    "feather-icons": "^4.28.0",
+    "winbox": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
+    "@types/feather-icons": "^4.7.0",
+    "@types/winbox": "^0.2.1",
     "autoprefixer": "^10.3.7",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.4.0",
