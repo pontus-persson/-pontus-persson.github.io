@@ -9,6 +9,7 @@
   <script type="text/javascript" src="js/lib/name.js"></script>
   <script type="text/javascript" src="js/lib/vec2.js"></script>
   <script type="text/javascript" src="js/lib/triangle.js"></script>
+  <script type="text/javascript" src="js/lib/AIValue.js"></script>
   <script type="text/javascript" src="js/lib/AI.js"></script>
   <script type="text/javascript" src="js/lib/enemy.js"></script>
   <script type="text/javascript" src="js/lib/target.js"></script>
@@ -18,5 +19,21 @@
 </head>
 <body>
 	<canvas id="canvas"></canvas>
+  <div id="slidecontainer">
+    <h4>My entity</h4>
+    <p>(Cheating allowed)</p>
+    <label for="distWeight">distWeight: </label>
+    <input type="range" min="1" max="100" value="0" step="any" class="slider" id="distWeight">
+    <label for="edistWeight">edistWeight: </label>
+    <input type="range" min="1" max="100" value="0" step="any" class="slider" id="edistWeight">
+    <label for="distCutoff">distCutoff: </label>
+    <input type="range" min="1" max="100" value="0" step="any" class="slider" id="distCutoff">
+    <label for="edistCutoff">edistCutoff: </label>
+    <input type="range" min="1" max="100" value="0" step="any" class="slider" id="edistCutoff">
+    <label for="turnlimit">turnlimit: </label>
+    <input type="range" min="1" max="100" value="0" step="any" class="slider" id="turnlimit">
+    <label for="maxspeed">maxspeed: </label>
+    <input type="range" min="1" max="100" value="0" step="any" class="slider" id="maxspeed">
+  </div>
 </body>
 </html>

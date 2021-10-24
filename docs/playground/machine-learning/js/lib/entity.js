@@ -6,11 +6,12 @@ var Entity = function(w ,h) {
     this.AI = new AI(w, h);
     this.generation = 1;
     this.name = new Name();
+    this.name.first = '';
 
     this.update = function(targets, enemies) {
         this.AI.update(this, targets, enemies);
         this.vel.addVec(this.AI.vel);
-        
+
         this.pos.addVec(this.vel);
         this.shape.update(this.pos, this.vel);
     },
@@ -38,12 +39,12 @@ var Entity = function(w ,h) {
         ctx.beginPath();
         ctx.arc(this.pos.x, this.pos.y, this.AI.distCutoff, 0, 2 * Math.PI, false);
         ctx.strokeStyle = 'rgba(100,255,100,0.7)';
-        ctx.lineWidth = this.score;
+        ctx.lineWidth = 1 + (this.score * 0.4);
         ctx.stroke();
 
         ctx.beginPath();
         ctx.arc(this.pos.x, this.pos.y, this.AI.edistCutoff, 0, 2 * Math.PI, false);
-        ctx.strokeStyle = 'rgba(255,0,0,0.8)';
+        ctx.strokeStyle = 'rgba(255,55,55,0.8)';
         ctx.lineWidth = 1;
         ctx.stroke();
 
@@ -52,8 +53,9 @@ var Entity = function(w ,h) {
         // ctx.strokeStyle = 'rgba(0,0,0,1)';
         // ctx.fillText(this.score, this.pos.x - 9, this.pos.y - 15);
         // ctx.strokeText(this.generation, this.pos.x - 9, this.pos.y - 15);
-        ctx.fillText(this.generation, this.pos.x - 9, this.pos.y - 15);
-        ctx.fillText(this.name.first, this.pos.x - 9, this.pos.y + 15);
+        ctx.fillText(this.score, this.pos.x - 10, this.pos.y - 15);
+        let nametext = this.name.first + " gen:" + this.generation
+        ctx.fillText(nametext, this.pos.x - 9 - (ctx.measureText(nametext).width * 0.5), this.pos.y + 15);
         // ctx.stroke();
     },
 

@@ -10,6 +10,7 @@ var AI = function(w, h) {
     this.maximumWeight = 100;
 
     // AI values
+    this.numValues = 6;
     this.distWeight = 0;    // Weight of "food", how much to value stearing to food
     this.edistWeight = 0;   // Weight of enemies, how much to value stearing away from enemies
     this.distCutoff = 0;    // How long can we see food
@@ -17,16 +18,7 @@ var AI = function(w, h) {
     this.turnlimit = 0;     // How much to limit turning in relation to stimulus
     this.maxspeed = 0;      // Max speed of entity
 
-    this.maximumValues = {
-        distWeight: 1,
-        edistWeight: 1,
-        distCutoff: 500,
-        edistCutoff: 500,
-        turnlimit: 0.1,
-        maxspeed: 6,
-    }
-
-    this.minimumValues = {
+    window.minimumValues = {
         distWeight: 0,
         edistWeight: 0,
         distCutoff: 40,
@@ -35,33 +27,52 @@ var AI = function(w, h) {
         maxspeed: 0.4,
     }
 
-    
+    window.maximumValues = {
+        distWeight: 1,
+        edistWeight: 1,
+        distCutoff: 500,
+        edistCutoff: 500,
+        turnlimit: 0.2,
+        maxspeed: 6,
+    }
+
+
+    // New way of handling values?
+    this.values = {
+        distWeight:     new AIValue('distWeight', 0, 1),
+        edistWeight:    new AIValue('edistWeight', 0, 1),
+        distCutoff:     new AIValue('distCutoff', 40, 500),
+        edistCutoff:    new AIValue('edistCutoff', 0, 1),
+        turnlimit:      new AIValue('turnlimit', 0, 1),
+        maxspeed:       new AIValue('maxspeed', 0, 1),
+    };
+
+
     // console.log("New AI: distW:"+this.distWeight+ " distC:"+this.distCutoff+" limit:"+this.turnlimit+" maxspeed:"+this.maxspeed);
 
     
     this.setValues = function(parent) {
         
         let values = [
-            Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()
+            Math.random() * (this.numValues/2), Math.random() * (this.numValues/2), Math.random() * (this.numValues/2), Math.random() * (this.numValues/2), Math.random() * (this.numValues/2), Math.random() * (this.numValues/2)
         ];
-        let sum = values.reduce(function(a, b) { return a + b; }, 0);
+        // let sum = values.reduce(function(a, b) { return a + b; }, 0);
 
         for (let i = 0; i < values.length; i++) {
-            values[i] = values[i] / sum; // set values to a percentage according to its random value
+            values[i] = values[i] / this.numValues; // set values to a percentage according to its random value
         }
-        let sum2 = values.reduce(function(a, b) { return a + b; }, 0);
-        
-        if(Math.round(sum2) !== 1) {
-            throw("Error in setValues, values sum not equal to 1");
-        }
+        // let sum2 = values.reduce(function(a, b) { return a + b; }, 0);
+        // if(Math.round(sum2) !== (this.numValues/2)) {
+            // throw("Error in setValues, values sum not equal to 1 - " + sum2);
+        // }
         
         if (!parent) {
-            this.distWeight = (values[0] * (this.maximumValues.distWeight - this.minimumValues.distWeight)) + this.minimumValues.distWeight;
-            this.edistWeight = (values[1] * (this.maximumValues.edistWeight - this.minimumValues.edistWeight)) + this.minimumValues.edistWeight;
-            this.distCutoff = (values[2] * (this.maximumValues.distCutoff - this.minimumValues.distCutoff)) + this.minimumValues.distCutoff;
-            this.edistCutoff = (values[3] * (this.maximumValues.edistCutoff - this.minimumValues.edistCutoff)) + this.minimumValues.edistCutoff;
-            this.turnlimit = (values[4] * (this.maximumValues.turnlimit - this.minimumValues.turnlimit)) + this.minimumValues.turnlimit;
-            this.maxspeed = (values[5] * (this.maximumValues.maxspeed - this.minimumValues.maxspeed)) + this.minimumValues.maxspeed;
+            this.distWeight = (values[0] * (maximumValues.distWeight - minimumValues.distWeight)) + minimumValues.distWeight;
+            this.edistWeight = (values[1] * (maximumValues.edistWeight - minimumValues.edistWeight)) + minimumValues.edistWeight;
+            this.distCutoff = (values[2] * (maximumValues.distCutoff - minimumValues.distCutoff)) + minimumValues.distCutoff;
+            this.edistCutoff = (values[3] * (maximumValues.edistCutoff - minimumValues.edistCutoff)) + minimumValues.edistCutoff;
+            this.turnlimit = (values[4] * (maximumValues.turnlimit - minimumValues.turnlimit)) + minimumValues.turnlimit;
+            this.maxspeed = (values[5] * (maximumValues.maxspeed - minimumValues.maxspeed)) + minimumValues.maxspeed;
             // this.distWeight = Math.random();
             // this.edistWeight = Math.random();
             // this.distCutoff = 50 + 300 * Math.random() * Math.random();
@@ -82,7 +93,7 @@ var AI = function(w, h) {
             var edelta = new vec2(enemies[i].pos.x - entity.pos.x, enemies[i].pos.y - entity.pos.y);
             var edist = edelta.len();
             if(edist < 12) {
-                entity.score--;
+                entity.score -= 2;
                 enemies.splice(i, 1);
                 continue;
             }

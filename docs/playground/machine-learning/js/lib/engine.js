@@ -1,9 +1,24 @@
+/**
+ * Ideas:
+ *  - Make setting AI values of own entity affect all values like the ranomization of them
+ *  - a way to reduce chance of "orbiting"
+ *  - make AI values more dynamic, like a class for each value where we can set min max and controller for a slider etc
+ *  - something to block or remove moving to far outside of canvas
+ *  
+ * Maybe ideas for more values:
+ *  - Pickup distance, distance to get targets and enemies
+ *  - Time to change movement? if random movement should be a thing
+ *  - A value to add velocity to move towards the center of remaining food??
+ */
 var Engine = function(canvasid) {
     var self = this;
     this.canvas = document.getElementById(canvasid);
     this.ctx = this.canvas.getContext('2d');
     this.ctx.font = "22px sans";
 
+    this.slideContainer = document.getElementById('slidecontainer');
+
+    this.ownEntity = null;
     this.targets = [];
     this.enemies = [];
     this.entities = [];
@@ -17,13 +32,37 @@ var Engine = function(canvasid) {
     this.targetsize = 6;
     this.maxtime = 30000;
 
+    this.sliders = [];
+
+    for (const [key, value] of Object.entries(minimumValues)) {
+        var input = document.getElementById(key);
+        if(input) {
+            this.sliders.push(input)
+            input.value = value;
+            input.setAttribute('min', value);
+            input.setAttribute('max', maximumValues[key]);
+            input.addEventListener('change', function(e) {
+                console.log(e.target.value);
+                $(this).prev().html(key+': '+Math.round(e.target.value * 100) / 100);
+                var oldValue = self.ownEntity.AI[key];
+                console.log(oldValue / e.target.value);
+                self.ownEntity.AI[key] = e.target.value;
+            });
+        }
+    }
+
     this.start = function() {
+
         // init variables
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.maxtargets = (this.canvas.width + this.canvas.height) / 50;
         this.maxenemies = (this.canvas.width + this.canvas.height) / 100;
-    
+
+        this.ownEntity = new Entity(this.canvas.width, this.canvas.height);
+        this.ownEntity.name.first = "You!";
+        this.setSliders();
+        
         window.addEventListener('resize', (e) => {
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
@@ -41,26 +80,28 @@ var Engine = function(canvasid) {
 
         if(elapsed > this.spawnExtraTargetsTime) {
             this.spawnTarget();
-            this.spawnExtraTargetsTime += 2000;
+            this.spawnExtraTargetsTime += 1000;
         }       
 
         if(this.targets.length == 0 || elapsed > this.maxtime) {
             
-            var bestscore = 0, firstindex = -1;
-            var secondscore = 0, secondindex = -1;
+            var bestscore = 0, firstindex = -1, secondindex = -1;
             var newentities = [];
             this.spawnExtraTargetsTime = 4000;
+            this.ownEntity.score = 0;
 
             for (var i = 0; i < this.entities.length; i++) {
-                if(this.entities[i].score > 0) {
+                if(this.entities[i].score > 0 && this.entities[i] !== this.ownEntity) {
                     if(bestscore < this.entities[i].score) {
-                        secondscore = bestscore;
                         bestscore = this.entities[i].score;
                         secondindex = firstindex;
                         firstindex = i;
                     }
                 }
             }
+
+            // always add own entitie
+            newentities.push(this.ownEntity);
 
             // firstindex is the best entity if set, spawn extra children
             if(firstindex >= 0) {
@@ -102,7 +143,8 @@ var Engine = function(canvasid) {
         }
 
         this.draw();
-        this.ctx.fillText(Math.round(this.maxtime - elapsed) / 1000, 4, 22);
+        this.ctx.fillText("Time left: " + Math.round(this.maxtime - elapsed) / 1000, 4, 22);
+        this.ctx.fillText("Food left: " + this.targets.length, 4, 42);
         window.requestAnimationFrame(function() { self.update(); });
     },
 
@@ -174,5 +216,35 @@ var Engine = function(canvasid) {
             }
         }
         this.enemies.push(new Enemy(spawnPos, this.targetsize));
+    }
+
+    this.setSliders = function() {
+
+        for (let i = 0; i < this.sliders.length; i++) {
+            const element = this.sliders[i];
+            const id = element.getAttribute('id');
+            element.value = this.ownEntity.AI[id];
+            $(element).prev().html(id+': '+Math.round(element.value * 100) / 100);
+
+        }
+    //     let sum = values.reduce(function(a, b) { return a + b; }, 0);
+
+    //     for (let i = 0; i < values.length; i++) {
+    //         values[i] = values[i] / sum; // set values to a percentage according to its random value
+    //     }
+    //     let sum2 = values.reduce(function(a, b) { return a + b; }, 0);
+        
+    //     if(Math.round(sum2) !== 1) {
+    //         throw("Error in setValues, values sum not equal to 1");
+    //     }
+        
+    //     if (!parent) {
+    //         this.distWeight = (values[0] * (maximumValues.distWeight - minimumValues.distWeight)) + minimumValues.distWeight;
+    //         this.edistWeight = (values[1] * (maximumValues.edistWeight - minimumValues.edistWeight)) + minimumValues.edistWeight;
+    //         this.distCutoff = (values[2] * (maximumValues.distCutoff - minimumValues.distCutoff)) + minimumValues.distCutoff;
+    //         this.edistCutoff = (values[3] * (maximumValues.edistCutoff - minimumValues.edistCutoff)) + minimumValues.edistCutoff;
+    //         this.turnlimit = (values[4] * (maximumValues.turnlimit - minimumValues.turnlimit)) + minimumValues.turnlimit;
+    //         this.maxspeed = (values[5] * (maximumValues.maxspeed - minimumValues.maxspeed)) + minimumValues.maxspeed;
+    //     }
     }
 }
