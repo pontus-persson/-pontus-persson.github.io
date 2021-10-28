@@ -13,3 +13,6 @@
 [submodule "docs/playground/threejs-panorama"]
 	path = docs/playground/threejs-panorama
 	url = https://github.com/pontus-persson/threejs-panorama.git
+[submodule "docs/playground/sudoku"]
+	path = docs/playground/sudoku
+	url = https://github.com/pontus-persson/sudoku.git
